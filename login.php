@@ -3,8 +3,8 @@ session_start();
 $mail = $pas = $role = "";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-	$mail = $_POST["mail"];
-	$pas = $_POST["pas"];
+	$mail = $_POST["email"];
+	$pas = $_POST["pass"];
   $role = $_POST["role"];
 }
 else{
@@ -30,21 +30,21 @@ if($conn->connect_error){
 	echo "<script>setTimeout(function(){window.location.href='index.html'},2200);</script>";
 }
 else{
-	$sql = "select name, mail, pas from details1 where mail = '$mail' ";
+	$sql = "select fname, lname, email, pwd, role from reg where email = '$mail' ";
 	$res = $conn->query($sql);
 	if($res->num_rows > 0){
 		while($row = $res->fetch_assoc()){
-			if($mail == $row["mail"] && $pas == $row["pas"]){
-				$NAME = $row["name"];
+			if($mail == $row["email"] && $pas == $row["pwd"]){
+				$NAME = $row["fname"].' '.$row["lname"];
 				$_SESSION['UNAME'] = $NAME;
-				$_SESSION['log'] = '';
+				$_SESSION['role'] = $row['role'];
 				$_SESSION['NAME'] = '';
 				$_SESSION['total'] = '';
 				echo "<br>";
 				echo "<div align = 'center'>";
 				echo "<h3>Login Successful !</h3>";
 				echo "</div>";
-				echo "<script>setTimeout(function(){window.location.href='index.html'},2200);</script>";
+				echo "<script>setTimeout(function(){window.location.href='user.php'},2200);</script>";
 			}
 			else{
 				echo "<div align='center'> ";
